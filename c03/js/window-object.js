@@ -1,6 +1,6 @@
 let msg = '<h2>browser window</h2>'
-msg +=`<p>browser_width:${window.innerWidth}</p>`
-msg +=`<p>browser_height:${window.innerHeight}</P>`
+msg += `<p>browser_width:${window.innerWidth}</p>`
+msg += `<p>browser_height:${window.innerHeight}</P>`
 
 info_element= document.getElementById('info')
 info_element.innerHTML = msg;

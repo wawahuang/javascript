@@ -8,7 +8,7 @@ function reqListener() {
     }
     sarea_array = [...new Set(sarea_array)]
     for (const area of sarea_array){
-        let option = document.createElement('option')
+        let optionElement = document.createElement('option')
         optionElement.textContent = area
         sareaElement.appendChild(optionElement)
     }

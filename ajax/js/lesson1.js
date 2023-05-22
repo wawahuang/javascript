@@ -2,6 +2,7 @@ let sarea_array = []
 let sareaElement =  document.getElementById('sarea');
 let areaNameElement = document.getElementById('areaName')
 let tbodyElement = document.getElementById('tbody')
+let dialogElement = document.getElementById('dialog')
 let youbikedata;
 
 sareaElement.addEventListener('change', (event) => {
@@ -27,7 +28,9 @@ sareaElement.addEventListener('change', (event) => {
                 trHTML += "<td>" + element.bemp +"</td>"
                 trHTML += "<td>" + element.updateTime + "</td>"
                 trHTML += "<td>" + status +"</td>"
+                trHTML +="<td><a href = '#'>更多</a></td>"
                 trHTML += "</tr>"
+
             }
 
         }); 
@@ -55,7 +58,7 @@ function reqListener() {
 function reqReadyChange(){
     if(this.readyState == 4){
         if(this.status != 200){
-            console.log("網頁維護中...")            
+            dialogElement.show()        
         }
     }
 }

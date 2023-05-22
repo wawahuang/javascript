@@ -1,26 +1,29 @@
 let sarea_array = []
-let sareaElement = document.getElementById('sarea')
-sareaElement.addEventListener('change',(event)=>{
-    let selectedIndex = sareaElement.selectedIndex;    
+let sareaElement =  document.getElementById('sarea');
+let areaNameElement = document.getElementById('areaName')
+sareaElement.addEventListener('change', (event) => {
+    let selectedIndex = sareaElement.selectedIndex;
     selectedValue=sareaElement.options[selectedIndex].value
     if(sarea_array.includes(selectedValue)){
-        console.log('有這個行政區')
+        console.log(`行政區:${selectedValue}`)
+        areaNameElement.innerText = selectedValue
+        
     }
-
 });
+
 function reqListener() {
-    let youbikedata = JSON.parse(this.responseText)
-    //let sarea_array = []
+    let youbikedata = JSON.parse(this.responseText)    
     for(const youbike of youbikedata){
         sarea_array.push(youbike.sarea)    
     }
     sarea_array = [...new Set(sarea_array)]
     let optionElement = document.createElement('option')
-    optionElement.textContent = "請選擇行政區"
+    optionElement.textContent = '請選擇行政區'
     sareaElement.appendChild(optionElement)
-    for (const area of sarea_array){
+    for(const area of sarea_array){
         let optionElement = document.createElement('option')
         optionElement.textContent = area
+        optionElement.setAttribute('value',area)
         sareaElement.appendChild(optionElement)
     }
 }

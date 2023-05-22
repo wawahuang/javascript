@@ -3,8 +3,12 @@ let sareaElement =  document.getElementById('sarea');
 let areaNameElement = document.getElementById('areaName')
 let tbodyElement = document.getElementById('tbody')
 let dialogElement = document.getElementById('dialog')
+let mapElement = document.getElementById('map')
+let exitElement = document.getElementById('exit')
+
 let youbikedata;
 
+//下拉式選單被選取
 sareaElement.addEventListener('change', (event) => {
     let selectedIndex = sareaElement.selectedIndex;
     selectedValue=sareaElement.options[selectedIndex].value
@@ -12,7 +16,7 @@ sareaElement.addEventListener('change', (event) => {
         //console.log(`行政區:${selectedValue}`)
         areaNameElement.innerText = selectedValue
         let trHTML = "" //行政區內的html資訊
-        youbikedata.forEach(element => {            
+        youbikedata.forEach(element => {           
             if (element.sarea == selectedValue){
                 if (element.act == "1"){
                     var status = "營業中"
@@ -28,27 +32,36 @@ sareaElement.addEventListener('change', (event) => {
                 trHTML += "<td>" + element.bemp +"</td>"
                 trHTML += "<td>" + element.updateTime + "</td>"
                 trHTML += "<td>" + status +"</td>"
-                trHTML += `<td><a class = "map" href="#" data-sno=${element.sno}>更多</a></td>`
+                trHTML += `<td><a class="map" href="#" data-sno=${element.sno}>更多</a></td>`
                 trHTML += "</tr>"
             }
 
-        }); 
+        });         
         tbodyElement.innerHTML = trHTML
         //取得所有的a元素
         //a元素加入click事件
         //取出a元素的data-sno的屬性值
-
+        //跳出<div class="map">對話欄
         let aElements = document.querySelectorAll('.map')
-        aElements.forEach((element) =>{
+        aElements.forEach((element)=>{
             element.addEventListener('click',(event)=>{
-                let aElements = event.currentTarget
-                console.log(aElements.dataset.sno)
+                event.preventDefault()
+                let aElement = event.currentTarget
+                console.log(aElement.dataset.sno)
+                mapElement.className = 'overlay'
+                youbikedata.forEach(site=>{
+                    if (site.sno == aElement.dataset.sno){
+                        console.log(site.lat)
+                        console.log(site.lng)
+
+                    }
+                })
             })
-            //console.log(element.dataset.sno)
         })
     }
 });
 
+//xmlhttpRequest的listener
 function reqListener() {    
     youbikedata = JSON.parse(this.responseText)    
     for(const youbike of youbikedata){
@@ -66,6 +79,7 @@ function reqListener() {
     }
 }
 
+//監聽下載完成的http stauts
 function reqReadyChange(){
     if(this.readyState == 4){
         if(this.status != 200){
@@ -74,6 +88,7 @@ function reqReadyChange(){
     }
 }
 
+//window被載入的事件
 const windowload = (event) => {
     console.log('網頁已經全部被載入');    
     const req = new XMLHttpRequest();
@@ -85,4 +100,10 @@ const windowload = (event) => {
     req.send();
 }
 
+
 window.addEventListener('load', windowload)
+
+//map內的離開的click事件
+exitElement.addEventListener('click',(event)=>{
+    mapElement.className = 'close'
+})

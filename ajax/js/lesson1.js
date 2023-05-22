@@ -28,13 +28,24 @@ sareaElement.addEventListener('change', (event) => {
                 trHTML += "<td>" + element.bemp +"</td>"
                 trHTML += "<td>" + element.updateTime + "</td>"
                 trHTML += "<td>" + status +"</td>"
-                trHTML +="<td><a href = '#'>更多</a></td>"
+                trHTML += `<td><a class = "map" href="#" data-sno=${element.sno}>更多</a></td>`
                 trHTML += "</tr>"
-
             }
 
         }); 
         tbodyElement.innerHTML = trHTML
+        //取得所有的a元素
+        //a元素加入click事件
+        //取出a元素的data-sno的屬性值
+
+        let aElements = document.querySelectorAll('.map')
+        aElements.forEach((element) =>{
+            element.addEventListener('click',(event)=>{
+                let aElements = event.currentTarget
+                console.log(aElements.dataset.sno)
+            })
+            //console.log(element.dataset.sno)
+        })
     }
 });
 
@@ -68,8 +79,9 @@ const windowload = (event) => {
     const req = new XMLHttpRequest();
     req.addEventListener("load", reqListener);
     req.addEventListener("readystatechange",reqReadyChange)
-    //req.open("GET", "https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json");
-    req.open("GET", "https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v1/youbike_immediate.json");
+    req.open("GET", "https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json");
+    /*模擬錯誤的網頁*/
+    //req.open("GET", "https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v1/youbike_immediate.json");
     req.send();
 }
 

@@ -47,13 +47,25 @@ sareaElement.addEventListener('change', (event) => {
             element.addEventListener('click',(event)=>{
                 event.preventDefault()
                 let aElement = event.currentTarget
-                console.log(aElement.dataset.sno)
+                //console.log(aElement.dataset.sno)
                 mapElement.className = 'overlay'
-                youbikedata.forEach(site=>{
-                    if (site.sno == aElement.dataset.sno){
-                        console.log(site.lat)
-                        console.log(site.lng)
+                let showMapElement= document.createElement('div')
+                showMapElement.setAttribute('id','showMap')
+                mapElement.appendChild(showMapElement)
 
+                youbikedata.forEach(site=>{
+                    if (site.sno == aElement.dataset.sno){                        
+                        let zoom = 17; // 0 - 18
+                        let center = [site.lat, site.lng]; // 中心點座標
+                        let map = L.map('showMap').setView(center, zoom);
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap', // 商用時必須要有版權出處
+                        zoomControl: true , // 是否秀出 - + 按鈕
+                        }).addTo(map);
+                        let marker = L.marker(center,{
+                            title:'站點名稱',
+                            opacity:1.0                            
+                        }).addTo(map)
                     }
                 })
             })
@@ -79,7 +91,7 @@ function reqListener() {
     }
 }
 
-//監聽下載完成的http stauts
+//監聽下載完成的http status
 function reqReadyChange(){
     if(this.readyState == 4){
         if(this.status != 200){
@@ -99,7 +111,6 @@ const windowload = (event) => {
     //req.open("GET", "https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v1/youbike_immediate.json");
     req.send();
 }
-
 
 window.addEventListener('load', windowload)
 

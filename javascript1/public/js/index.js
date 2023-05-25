@@ -49,14 +49,16 @@ sareaElement.addEventListener('change', (event) => {
                 let aElement = event.currentTarget
                 //console.log(aElement.dataset.sno)
                 mapElement.className = 'overlay'
-                let showMapElement= document.createElement('div')
+                
+                //加入showMap<div id="showMap"></div>
+                let showMapElement =document.createElement('div')
                 showMapElement.setAttribute('id','showMap')
                 //mapElement.appendChild(showMapElement)
                 mapElement.insertBefore(showMapElement,mapElement.childNodes[0])
 
                 youbikedata.forEach(site=>{
                     if (site.sno == aElement.dataset.sno){                        
-                        let zoom = 17; // 0 - 18
+                        let zoom = 18; // 0 - 18
                         let center = [site.lat, site.lng]; // 中心點座標
                         let map = L.map('showMap').setView(center, zoom);
                         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -65,8 +67,8 @@ sareaElement.addEventListener('change', (event) => {
                         }).addTo(map);
                         let marker = L.marker(center,{
                             title:'站點名稱',
-                            opacity:1.0                            
-                        }).addTo(map)
+                            opacity:1.0
+                        }).addTo(map)                        
                     }
                 })
             })

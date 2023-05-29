@@ -1,6 +1,24 @@
+
+//import {initializeApp} from 'firebase.app'
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js'
+
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js'
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCV3DCUmqNQzHc386RLJ8iNZGeL-xVvOBQ",
+    authDomain: "javascript1-9673b.firebaseapp.com",
+    projectId: "javascript1-9673b",
+    storageBucket: "javascript1-9673b.appspot.com",
+    messagingSenderId: "827882049966",
+    appId: "1:827882049966:web:5231ada125a5adbc52383f"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app)
+
 let formElement = document.querySelector('#form')
 
-let allOfDataArray = [];
+let allOfDataObject = {};
 
 
 const setupCurrentDate = ()=>{
@@ -32,7 +50,8 @@ const validateName = () => {
         nameAlertElement.classList.remove("close")
         return
     }
-    allOfDataArray.push({ 'productName': productName })
+    //allOfDataArray.push({ 'productName': productName })
+    allOfDataObject['prodectName']=productName
 }
 
 const validateCodeFormat = () => {
@@ -49,7 +68,7 @@ const validateCodeFormat = () => {
         console.log("執行錯誤")
         return
     }
-    allOfDataArray.push({ 'code': inputCodeValue })
+    allOfDataObject['code']=inputCodeValue 
 }
 
 const checkRadioValue = () => {
@@ -57,7 +76,8 @@ const checkRadioValue = () => {
     radionElements.forEach(element => {
         if (element.checked) {
             //console.log(element.value)
-            allOfDataArray.push({ 'catgory': element.value })
+            //allOfDataArray.push({ 'catgory': element.value })
+            allOfDataObject['catgory']= element.value
         }
     })
 }
@@ -65,11 +85,16 @@ const checkRadioValue = () => {
 const warrantyCheck = () => {
     let checkboxElement = document.querySelector('#warrantyCheck1')
     if (checkboxElement.checked) {
-        allOfDataArray.push({ 'warranty': true })
+        allOfDataObject['warranty']= true 
     } else {
-        allOfDataArray.push({ 'warranty': false })
+        allOfDataObject['warranty']= false
     }
 
+}
+
+const getWranntyDate= ()=>{
+    let dateElement = document.querySelector("#warrantyDate")
+    allOfDataObject['warrantyDate']= dateElement.value 
 }
 
 const clearAllAlertAndData = () => {
@@ -82,7 +107,19 @@ const clearAllAlertAndData = () => {
     codeAlertElement.classList.add("close")
 
     //清除收集的資料
-    allOfDataArray = []
+    allOfDataObject = []
+}
+
+const setEmpty= ()=>{
+    let inputNameElement = document.querySelector('#inputName')
+    inputNameElement.value = ""
+    let inputCodeElement = document.querySelector('#inputCode')
+    inputCodeElement.value = ""
+    let radionElements = document.querySelectorAll('#inlineRadio1')
+    radionElements.checked = true
+    let checkboxElement = document.querySelector('#warrantyCheck1')
+    checkboxElement.checked = false
+    setupCurrentDate()
 }
 
 formElement.addEventListener('submit', (event) => {
@@ -92,5 +129,7 @@ formElement.addEventListener('submit', (event) => {
     validateCodeFormat()
     checkRadioValue()
     warrantyCheck()
-    console.log(allOfDataArray)
+    getWranntyDate()
+    console.log(allOfDataObject)
+    setEmpty()
 })

@@ -14,7 +14,7 @@
 <body>
     <div id="container">
         <header class="header">
-            <h1>產品檢示</h1>
+            <h1>產品檢視</h1>
         </header>
         <nav class="nav">
             <ul>
@@ -24,51 +24,20 @@
             </ul>
         </nav>
         <main class="main">
-            <form id="form" method="post" action="">
-                <div class="mb-3">
-                    <label for="inputName" class="form-label">產品名稱</label>
-                    <input type="text" class="form-control" id="inputName" aria-describedby="nameHelp">
-                    <div id="nameHelp" class="form-text">產品名稱要詳細</div>
-                    <p id='nameAlert' class="alert close">*產品名稱一定要填寫</p>
-                </div>
-                <div class="mb-3">
-                    <label for="InputCode" class="form-label">產品編號</label>
-                    <input type="text" class="form-control" id="inputCode" aria-describedby="codeHelp">
-                    <div id="codeHelp" class="form-text">xxx-xxx-xxx</div>
-                    <p id="codeAlert" class="alert close">*格式不符合</p>
-                </div>
-
-                <p>類別</p>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="生鮮"
-                        checked>
-                    <label class="form-check-label" for="inlineRadio1">生鮮</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="熟食">
-                    <label class="form-check-label" for="inlineRadio2">熟食</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="烘烤">
-                    <label class="form-check-label" for="inlineRadio3">烘烤</label>
-                </div>
-
-                <p style="margin-top:5em;">保固需求</p>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input1" id="warrantyCheck1">
-                    <label class="form-check-label1" for="warrantyCheck1">保固</label>
-                </div>
-
-
-                <div class="mb-3 form-check" style="margin-top:5em;">
-                    <label class="form-check-label1" for="warrantyDate">保存期限</label>
-                    <input type="date" value="2018-07-22" class="form-check-input1" id="warrantyDate">
-                </div>
-
-                <button type="submit" class="btn btn-primary">送出</button>
-
-            </form>
+            <table calss = "table">
+                <thead>
+                <tr>
+                    <th scope = "col">文件編號</th>
+                    <th scope = "col">產品名稱</th>
+                    <th scope = "col">產品編號</th>
+                </tr>
+            </thead>
+            <tbody id ="tbody">               
+                
+                
+            </tbody>
+            </table>
+            
         </main>
         <footer class="footer">
             <h1>Footer</h1>
@@ -77,3 +46,8 @@
 </body>
 
 </html>
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy

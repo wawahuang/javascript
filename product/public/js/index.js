@@ -2,7 +2,7 @@
 //import {initializeApp} from 'firebase.app'
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js'
 
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js'
+import { getFirestore, addDoc, collection } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js'
 
 const firebaseConfig = {
     apiKey: "AIzaSyCV3DCUmqNQzHc386RLJ8iNZGeL-xVvOBQ",
@@ -11,17 +11,17 @@ const firebaseConfig = {
     storageBucket: "javascript1-9673b.appspot.com",
     messagingSenderId: "827882049966",
     appId: "1:827882049966:web:5231ada125a5adbc52383f"
-  };
+};
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app)
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app)
 
 let formElement = document.querySelector('#form')
 
 let allOfDataObject = {};
 
 
-const setupCurrentDate = ()=>{
+const setupCurrentDate = () => {
 
     let current = new Date()
     let year = current.getFullYear()
@@ -31,7 +31,7 @@ const setupCurrentDate = ()=>{
     let month_string = String(month).padStart(2, "0")
     let date_string = String(date).padStart(2, "0")
     let current_date_sting = `${year}-${month_string}-${date_string}`
-    
+
     let dateElement = document.querySelector("#warrantyDate")
     dateElement.value = current_date_sting
     dateElement.min = current_date_sting
@@ -51,7 +51,7 @@ const validateName = () => {
         return
     }
     //allOfDataArray.push({ 'productName': productName })
-    allOfDataObject['prodectName']=productName
+    allOfDataObject['prodectName'] = productName
 }
 
 const validateCodeFormat = () => {
@@ -68,7 +68,7 @@ const validateCodeFormat = () => {
         console.log("執行錯誤")
         return
     }
-    allOfDataObject['code']=inputCodeValue 
+    allOfDataObject['code'] = inputCodeValue
 }
 
 const checkRadioValue = () => {
@@ -77,7 +77,7 @@ const checkRadioValue = () => {
         if (element.checked) {
             //console.log(element.value)
             //allOfDataArray.push({ 'catgory': element.value })
-            allOfDataObject['catgory']= element.value
+            allOfDataObject['catgory'] = element.value
         }
     })
 }
@@ -85,16 +85,16 @@ const checkRadioValue = () => {
 const warrantyCheck = () => {
     let checkboxElement = document.querySelector('#warrantyCheck1')
     if (checkboxElement.checked) {
-        allOfDataObject['warranty']= true 
+        allOfDataObject['warranty'] = true
     } else {
-        allOfDataObject['warranty']= false
+        allOfDataObject['warranty'] = false
     }
 
 }
 
-const getWranntyDate= ()=>{
+const getWranntyDate = () => {
     let dateElement = document.querySelector("#warrantyDate")
-    allOfDataObject['warrantyDate']= dateElement.value 
+    allOfDataObject['warrantyDate'] = dateElement.value
 }
 
 const clearAllAlertAndData = () => {
@@ -107,10 +107,10 @@ const clearAllAlertAndData = () => {
     codeAlertElement.classList.add("close")
 
     //清除收集的資料
-    allOfDataObject = []
+    allOfDataObject = {}
 }
 
-const setEmpty= ()=>{
+const setEmpty = () => {
     let inputNameElement = document.querySelector('#inputName')
     inputNameElement.value = ""
     let inputCodeElement = document.querySelector('#inputCode')
@@ -122,7 +122,7 @@ const setEmpty= ()=>{
     setupCurrentDate()
 }
 
-formElement.addEventListener('submit', (event) => {
+formElement.addEventListener('submit', async (event) => {
     clearAllAlertAndData()
     event.preventDefault()
     validateName()
@@ -131,5 +131,11 @@ formElement.addEventListener('submit', (event) => {
     warrantyCheck()
     getWranntyDate()
     console.log(allOfDataObject)
+    try {
+        const docRef = await addDoc(collection(db, "products"), allOfDataObject);
+        console.log("這個文件的id是 ", docRef.id);
+    } catch (e) {
+        console.error("加入文件的錯誤是 ", e);
+    }
     setEmpty()
 })
